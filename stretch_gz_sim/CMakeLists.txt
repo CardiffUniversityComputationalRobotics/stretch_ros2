@@ -30,6 +30,7 @@ install(
     worlds
     urdf
     meshes
+    rviz
   DESTINATION 
     share/${PROJECT_NAME})
 

@@ -80,6 +80,7 @@ def generate_launch_description():
     # Spawn
     stretch_sdf_path = os.path.join(pkg_stretch_gz_sim, "urdf", "stretch_re1" ,"stretch_re1.sdf")
 
+
     spawn = Node(
         package='ros_gz_sim',
         executable='create',
@@ -177,6 +178,14 @@ def generate_launch_description():
         ]
     )
 
+    rviz_node = Node(
+        package='rviz2',
+        namespace='',
+        executable='rviz2',
+        name='rviz2',
+        arguments=['-d', [os.path.join(pkg_stretch_gz_sim, 'rviz', 'default.rviz')]]
+    )
+
     return LaunchDescription(
         [
             # Launch Arguments
@@ -194,6 +203,7 @@ def generate_launch_description():
             rgbd_static_tf,
             gz_image_bridge_node,
             relay_camera_info_node,
+            rviz_node,
         ]
     )
 
