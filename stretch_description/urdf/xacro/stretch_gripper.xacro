@@ -21,7 +21,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper.STL" />
       </geometry>
     </collision>
   </link>
@@ -53,12 +53,12 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_left_collision.STL" scale="${scale_finger_length} 1.0 1.0"/>
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_left.STL" scale="${scale_finger_length} 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_gripper_finger_left" type="revolute">
+  <joint name="joint_gripper_finger_left" type="fixed">
     <origin xyz="-0.047231 -0.010151 -0.04679" rpy="2.1762E-15 0.5236 3.1416" />
     <parent link="link_gripper" />
     <child link="link_gripper_finger_left" />
@@ -84,7 +84,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_left_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_left.STL" />
       </geometry>
     </collision>
   </link>
@@ -114,12 +114,12 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_right_collision.STL" scale="${scale_finger_length} 1.0 1.0"/>
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_right.STL" scale="${scale_finger_length} 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_gripper_finger_right" type="revolute">
+  <joint name="joint_gripper_finger_right" type="fixed">
     <origin xyz="-0.047231 0.010049 -0.04679" rpy="3.1416 -0.5236 1.2943E-15" />
     <parent link="link_gripper" />
     <child link="link_gripper_finger_right" />
@@ -145,7 +145,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_right_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_right.STL" />
       </geometry>
     </collision>
   </link>

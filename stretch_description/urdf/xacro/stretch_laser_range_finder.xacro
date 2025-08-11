@@ -19,7 +19,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/laser_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/laser.STL" />
       </geometry>
     </collision>
   </link>

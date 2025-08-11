@@ -21,7 +21,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_yaw_bottom_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_yaw_bottom.STL" />
       </geometry>
     </collision>
   </link>
@@ -49,11 +49,11 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_pitch_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_pitch.STL" />
       </geometry>
     </collision>
   </link>
-  <joint name="joint_wrist_pitch" type="revolute">
+  <joint name="joint_wrist_pitch" type="fixed">
     <origin xyz="0 -0.0195500000000002 -0.0247499999999984" rpy="1.5707963267949 -8.12895570882604E-15 -3.14159265358979" />
     <parent link="link_wrist_yaw_bottom" />
     <child link="link_wrist_pitch" />
@@ -78,11 +78,11 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_roll_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_roll.STL" />
       </geometry>
     </collision>
   </link>
-  <joint name="joint_wrist_roll" type="revolute">
+  <joint name="joint_wrist_roll" type="fixed">
     <origin xyz="-0.0188587444076125 -0.0239999999998942 0.01955" rpy="3.14159265358979 1.5707963267949 0" />
     <parent link="link_wrist_pitch" />
     <child link="link_wrist_roll" />
@@ -107,7 +107,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_straight_gripper_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_straight_gripper.STL" />
       </geometry>
     </collision>
   </link>
@@ -135,11 +135,11 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_right_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_right.STL" />
       </geometry>
     </collision>
   </link>
-  <joint name="joint_gripper_finger_right" type="revolute">
+  <joint name="joint_gripper_finger_right" type="fixed">
     <origin xyz="-0.018599 0.003 0.033689" rpy="1.5708 1.5708 0" />
     <parent link="link_straight_gripper" />
     <child link="link_gripper_finger_right" />
@@ -164,7 +164,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_right_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_right.STL" />
       </geometry>
     </collision>
   </link>
@@ -192,11 +192,11 @@
     <collision>
       <origin xyz="0 0 0" rpy="1.5707963267948966 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_left_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_finger_left.STL" />
       </geometry>
     </collision>
   </link>
-  <joint name="joint_gripper_finger_left" type="revolute">
+  <joint name="joint_gripper_finger_left" type="fixed">
     <origin xyz="0.018599 0.003 0.033689" rpy="1.5708 -1.5708 0" />
     <parent link="link_straight_gripper" />
     <child link="link_gripper_finger_left" />
@@ -221,7 +221,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_left_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_gripper_fingertip_left.STL" />
       </geometry>
     </collision>
   </link>

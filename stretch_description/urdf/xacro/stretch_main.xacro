@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="stretch_main">
   <xacro:property name="M_PI" value="3.1415926535897931" />
   <xacro:property name="joint_damping" value="21.75"/>
-  <xacro:property name="joint_friction" value="0.1"/>
+  <xacro:property name="joint_friction" value="10.48"/>
   <xacro:property name="joint_spring_stiffness" value="0"/>
   <xacro:property name="joint_spring_reference" value="0"/>
 
@@ -22,20 +22,21 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0.1" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/base_link_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
+
   <link name="link_right_wheel">
     <inertial>
-      <origin xyz="0 0 0.02765" rpy="0.0 3.1416 0" />
+      <origin xyz="0 0 0.02765" rpy="0 0 0" />
       <mass value="0.20773" />
       <inertia ixx="5.4E-05" ixy="0" ixz="0" iyy="5.4E-05" iyz="0" izz="5.1E-05" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0.0 3.1416 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find stretch_description)/meshes/link_right_wheel.STL" />
       </geometry>
@@ -44,23 +45,15 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.0125" rpy="0.0 0.0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.05" length="0.025"/>
+        <mesh filename="file://$(find stretch_description)/meshes/link_right_wheel.STL" />
       </geometry>
-      <!-- <surface>
-        <friction>
-          <ode>
-            <mu>100.01</mu>
-            <mu2>100.01</mu2>
-          </ode>
-        </friction>
-      </surface> -->
     </collision>
   </link>
 
   <joint name="joint_right_wheel" type="fixed">
-    <origin xyz="0 -0.17035 0.0508" rpy="1.5708 1.5708 4.8006E-17" />
+    <origin xyz="0 -0.17035 0.0508" rpy="-1.5708 1.2717E-16 4.8006E-17" />
     <parent link="base_link" />
     <child link="link_right_wheel" />
     <axis xyz="0 0 1" />
@@ -74,7 +67,7 @@
       <inertia ixx="5.4E-05" ixy="0" ixz="0" iyy="5.4E-05" iyz="0" izz="5.1E-05" />
     </inertial>
     <visual>
-      <origin xyz="0 0 0" rpy="0.0 3.1416 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
         <mesh filename="file://$(find stretch_description)/meshes/link_left_wheel.STL" />
       </geometry>
@@ -83,23 +76,15 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0.0125" rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.05" length="0.025"/>
+        <mesh filename="file://$(find stretch_description)/meshes/link_left_wheel.STL" />
       </geometry>
-      <!-- <surface>
-        <friction>
-          <ode>
-            <mu>100.0</mu>
-            <mu2>100.0</mu2>
-          </ode>
-        </friction>
-      </surface> -->
     </collision>
   </link>
 
   <joint name="joint_left_wheel" type="fixed">
-    <origin xyz="0 0.17035 0.0508" rpy="${M_PI/2} ${M_PI/2} -8.2057E-19" />
+    <origin xyz="0 0.17035 0.0508" rpy="-1.5708 2.6317E-16 -8.2057E-19" />
     <parent link="base_link" />
     <child link="link_left_wheel" />
     <axis xyz="0 0 1" />
@@ -164,7 +149,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_mast_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_mast.STL" />
       </geometry>
     </collision>
   </link>
@@ -194,20 +179,21 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_lift_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_lift.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_lift" type="prismatic">
-    <origin xyz="-0.037385 0.1666 0" rpy="-1.5708 1.5708 0" />
+  <joint name="joint_lift" type="fixed">
+    <origin xyz="-0.037385 1.0 0.0" rpy="-1.5708 1.5708 0" />
     <parent link="link_mast" />
     <child link="link_lift" />
     <axis xyz="0 0 1" />
+    <!-- for now: hand copied range_m: from lift: from ~/repos/stretch_fleet/stretch-re1-1001/stretch_re1_factory_params.yaml -->
+    <!--<limit effort="100" lower="0.0" upper="1.095" velocity="1.0"/>-->
+    <!-- copied value did not reach the top of mesh model with GUI sliders and RViz -->
     <limit effort="100" lower="0.0" upper="1.1" velocity="1.0"/>
   </joint>
-
-  <!--
 
   <link name="link_arm_l4">
     <inertial>
@@ -227,7 +213,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l4_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l4.STL" />
       </geometry>
     </collision>
   </link>
@@ -257,16 +243,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l3_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l3.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_arm_l3" type="prismatic">
+  <joint name="joint_arm_l3" type="fixed">
     <origin xyz="0 0 0.013" rpy="7.68831233799385E-30 2.36716479416092E-30 2.29652732251143E-17" />
     <parent link="link_arm_l4" />
     <child link="link_arm_l3" />
     <axis xyz="0 0 1" />
+    <!-- 0.13 = 0.52/4-->
     <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
   </joint>
 
@@ -288,16 +275,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l2_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l2.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_arm_l2" type="prismatic">
+  <joint name="joint_arm_l2" type="fixed">
     <origin xyz="0 0 0.013" rpy="0 1.57655765344625E-30 -1.66533453693773E-16" />
     <parent link="link_arm_l3" />
     <child link="link_arm_l2" />
     <axis xyz="0 0 1" />
+    <!-- 0.13 = 0.52/4-->
     <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
   </joint>
 
@@ -319,16 +307,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l1_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l1.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_arm_l1" type="prismatic">
+  <joint name="joint_arm_l1" type="fixed">
     <origin xyz="0 0 0.0129999999999981" rpy="-7.63746778746202E-30 -7.88860905221012E-31 1.11022302462516E-16" />
     <parent link="link_arm_l2" />
     <child link="link_arm_l1" />
     <axis xyz="0 0 1" />
+    <!-- 0.13 = 0.52/4-->
     <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
   </joint>
 
@@ -350,16 +339,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l0_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_arm_l0.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_arm_l0" type="prismatic">
+  <joint name="joint_arm_l0" type="fixed">
     <origin xyz="0 0 -0.0137499999991968" rpy="7.63746778746202E-30 -3.80121128864402E-15 2.62707547767438E-15" />
     <parent link="link_arm_l1" />
     <child link="link_arm_l0" />
     <axis xyz="0 0 1" />
+    <!-- 0.13 = 0.52/4-->
     <limit effort="100" lower="0.0" upper="0.13" velocity="1.0"/>
   </joint>
 
@@ -381,16 +371,22 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_yaw_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_wrist_yaw.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_wrist_yaw" type="revolute">
-    <origin xyz="0.0830000000000654 -0.0307500000000129 0" rpy="1.5708 4.2595E-14 2.6415E-15"/>
+  <joint name="joint_wrist_yaw" type="fixed">
+    <origin xyz="0.0830000000000654 -0.0307500000000129 0" rpy="3.1416 4.2595E-14 2.6415E-15"/>
     <parent link="link_arm_l0" />
     <child link="link_wrist_yaw" />
     <axis xyz="0 0 -1" />
+    <!--
+      stowed to front ~225 deg: 3.15159 x 1.25 = 3.9395
+      using 4.0
+      stowed to back ~100 deg:  100 / 180 x 3.14159 = 1.7453
+      using -1.75
+    -->
     <limit effort="100" lower="-1.75" upper="4.0" velocity="1.0"/>
   </joint>
 
@@ -412,7 +408,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_head_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_head.STL" />
       </geometry>
     </collision>
   </link>
@@ -442,16 +438,17 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_head_pan_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_head_pan.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_head_pan" type="revolute">
+  <joint name="joint_head_pan" type="fixed">
     <origin xyz="0.135 0.0731000000000001 -0.00319621125547975" rpy="0 0 1.5707963267949" />
     <parent link="link_head" />
     <child link="link_head_pan" />
     <axis xyz="0 0 1" />
+    <!-- unconstrained range for now -->
     <limit effort="100" lower="-3.9" upper="1.5" velocity="1.0"/>
   </joint>
 
@@ -473,17 +470,94 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <geometry>
-        <mesh filename="file://$(find stretch_description)/meshes/link_head_tilt_collision.STL" />
+        <mesh filename="file://$(find stretch_description)/meshes/link_head_tilt.STL" />
       </geometry>
     </collision>
   </link>
 
-  <joint name="joint_head_tilt" type="revolute">
+  <joint name="joint_head_tilt" type="fixed">
     <origin xyz="-0.00130000001785262 0.0277624999926072 -0.0533107920897029" rpy="1.5707963267949 3.36459255518345E-15 -8.42914893687103E-17" />
     <parent link="link_head_pan" />
     <child link="link_head_tilt" />
     <axis xyz="0 0 1" />
+    <!-- unconstrained range for now -->
     <limit effort="100" lower="-1.53" upper="0.79" velocity="1.0"/>
-  </joint> -->
+  </joint>
+
+  <link name="link_tray">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find stretch_description)/meshes/tray.dae" />
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find stretch_description)/meshes/tray.dae" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint_tray_base" type="fixed">
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 1.57" />
+    <parent link="base_link" />
+    <child link="link_tray" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <!-- pills -->
+
+  <link name="link_pills">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="file://$(find stretch_description)/meshes/pills.dae" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint_pills_tray" type="fixed">
+    <origin xyz="0.02 0.05 0.01" rpy="0.0 0.0 0.0" />
+    <parent link="link_tray" />
+    <child link="link_pills" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <!-- pill dispenser -->
+
+  <link name="link_pills_dispenser">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="file://$(find stretch_description)/meshes/pills_dispenser.dae" scale="0.3 0.3 0.3" />
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint_pills_dispenser_tray" type="fixed">
+    <origin xyz="0.01 -0.02 -0.04" rpy="0.0 0.0 0.0" />
+    <parent link="link_tray" />
+    <child link="link_pills_dispenser" />
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <!-- water bottle -->
+
+  <link name="link_water_bottle">
+    <visual>
+      <origin xyz="0 0 0" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="file://$(find stretch_description)/meshes/water_bottle.dae" scale="0.5 0.5 0.5"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint_water_bottle_tray" type="fixed">
+    <origin xyz="-0.125 -0.03 0.01" rpy="0.0 0.0 0.0" />
+    <parent link="link_tray" />
+    <child link="link_water_bottle" />
+    <axis xyz="0 0 1" />
+  </joint>
 
 </robot>

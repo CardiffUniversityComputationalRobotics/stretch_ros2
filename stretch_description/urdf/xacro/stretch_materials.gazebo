@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <gazebo reference="base_link">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <gazebo reference="caster_link">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+        <fdir1 value="1 0 0"/>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.0</minDepth>
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="link_left_wheel">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+        <fdir1 value="1 0 0"/>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.0</minDepth>
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <gazebo reference="link_right_wheel">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="1.0" />
+        <fdir1 value="1 0 0"/>
+        <maxVel>1.0</maxVel>
+        <minDepth>0.0</minDepth>
+        <turnGravityOff>false</turnGravityOff>
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <!-- Aruco -->
+    <gazebo reference="link_aruco_right_base">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="link_aruco_left_base">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="link_aruco_shoulder">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="link_aruco_top_wrist">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="link_aruco_inner_wrist">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- Respeaker -->
+    <gazebo reference="respeaker_base">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <!-- Lift -->
+    <gazebo reference="link_lift">
+        <mu1 value="10000.0"/>
+        <mu2 value="10000.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Black</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_mast">
+        <material>Gazebo/DarkGrey</material>
+    </gazebo>
+
+    <!-- Arm -->
+    <gazebo reference="link_arm_l0">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_arm_l1">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_arm_l2">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_arm_l3">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_arm_l4">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <!-- Wrist -->
+    <gazebo reference="link_wrist_yaw">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Black</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <!-- Head -->
+    <gazebo reference="link_head">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="link_head_tilt">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <gazebo reference="link_head_pan">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/DarkGrey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+    <!--Dex Wrist-->
+    <gazebo reference="link_wrist_yaw_bottom">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_wrist_pitch">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_wrist_roll">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_straight_gripper">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_gripper_finger_right">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_gripper_fingertip_right">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Black</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_gripper_finger_left">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Grey</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+    <gazebo reference="link_gripper_fingertip_left">
+        <mu1 value="100.0"/>
+        <mu2 value="200.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <material>Gazebo/Black</material>
+        <minDepth>0.001</minDepth>
+    </gazebo>
+
+
+</robot>
