@@ -8,8 +8,8 @@
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
-  
-  <depend>ros_gz</depend>
+
+  <depend>ros_gzharmonic</depend>
   <depend>realsense2_description</depend>
   <depend>stretch_description</depend>
 
