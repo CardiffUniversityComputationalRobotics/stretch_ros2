@@ -170,7 +170,7 @@
         </material>
       </visual>
       <sensor name='lidar' type='gpu_lidar'>
-        <topic>lidar</topic>
+        <topic>scan</topic>
         <update_rate>5.0</update_rate>
         <lidar>
           <scan>
