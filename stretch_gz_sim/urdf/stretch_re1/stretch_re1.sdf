@@ -212,7 +212,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
           <damping>21.75</damping>
-          <friction>3.48</friction>          
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -314,25 +314,25 @@
         </material>
       </visual>
     </link>
-  
+
     <!-- CASTER WHEEL -->
     <joint name='joint_caster' type='ball'>
-        <parent>base_link</parent>
-        <child>link_caster</child>
+      <parent>base_link</parent>
+      <child>link_caster</child>
     </joint>
 
     <link name="link_caster">
       <pose>-0.245 0.0 0.032 1.5707963267949 1.5707963267949 0</pose>
       <inertial>
         <mass>4.2</mass>
-          <inertia>
-            <ixx>0.001</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.001</iyy>
-            <iyz>0</iyz>
-            <izz>0.001</izz>
-          </inertia>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
       </inertial>
       <visual name="visual">
         <geometry>
@@ -359,15 +359,15 @@
               <mu2>0</mu2>
             </ode>
           </friction>
-            <contact>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <min_depth>0.05</min_depth>
-              </ode>
-            </contact>
+          <contact>
+            <ode>
+              <soft_cfm>0</soft_cfm>
+              <soft_erp>0.2</soft_erp>
+              <kp>1e+13</kp>
+              <kd>1</kd>
+              <min_depth>0.05</min_depth>
+            </ode>
+          </contact>
         </surface>
       </collision>
     </link>
@@ -1208,24 +1208,24 @@
       </inertial>
       <!-- RealSense RGB camera -->
       <sensor name="rgbd_camera" type="rgbd_camera">
-      <camera>
-        <horizontal_fov>1.25</horizontal_fov>
-        <image>
-          <width>320</width>
-          <height>240</height>
-        </image>
-        <clip>
-          <near>0.3</near>
-          <far>15</far>
-        </clip>
-        <optical_frame_id>camera_link_optical</optical_frame_id>
-      </camera>
-      <always_on>1</always_on>
-      <update_rate>20</update_rate>
-      <visualize>true</visualize>
-      <topic>camera</topic>
-      <gz_frame_id>camera_link</gz_frame_id>
-    </sensor>
+        <camera>
+          <horizontal_fov>1.25</horizontal_fov>
+          <image>
+            <width>320</width>
+            <height>240</height>
+          </image>
+          <clip>
+            <near>0.3</near>
+            <far>15</far>
+          </clip>
+          <optical_frame_id>camera_link_optical</optical_frame_id>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>20</update_rate>
+        <visualize>true</visualize>
+        <topic>camera</topic>
+        <gz_frame_id>camera_link</gz_frame_id>
+      </sensor>
     </link>
 
     <joint name='joint_camera_link_optical' type='fixed'>
@@ -1265,9 +1265,7 @@
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_lift</joint_name>
       <topic>joint_lift</topic>
       <p_gain>30</p_gain>
@@ -1279,9 +1277,7 @@
       <cmd_min>-100</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_arm_l3</joint_name>
       <topic>joint_arm_l3</topic>
       <p_gain>40</p_gain>
@@ -1293,9 +1289,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_arm_l2</joint_name>
       <topic>joint_arm_l2</topic>
       <p_gain>30</p_gain>
@@ -1307,9 +1301,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_arm_l1</joint_name>
       <topic>joint_arm_l1</topic>
       <p_gain>30</p_gain>
@@ -1321,9 +1313,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_arm_l0</joint_name>
       <topic>joint_arm_l0</topic>
       <p_gain>30</p_gain>
@@ -1335,9 +1325,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_wrist_yaw</joint_name>
       <topic>joint_wrist_yaw</topic>
       <p_gain>30</p_gain>
@@ -1349,9 +1337,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_gripper_finger_left</joint_name>
       <topic>joint_gripper_finger_left</topic>
       <p_gain>30</p_gain>
@@ -1363,9 +1349,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_gripper_finger_right</joint_name>
       <topic>joint_gripper_finger_right</topic>
       <p_gain>30</p_gain>
@@ -1377,9 +1361,7 @@
       <cmd_min>-50</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_head_pan</joint_name>
       <topic>joint_head_pan</topic>
       <p_gain>30</p_gain>
@@ -1391,9 +1373,7 @@
       <cmd_min>-100</cmd_min>
     </plugin>
 
-    <plugin
-      filename="gz-sim-joint-position-controller-system"
-      name="gz::sim::systems::JointPositionController">
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_head_tilt</joint_name>
       <topic>joint_head_tilt</topic>
       <p_gain>30</p_gain>
