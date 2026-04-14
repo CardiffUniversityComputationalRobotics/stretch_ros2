@@ -2,6 +2,20 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="stretch_main">
   <xacro:property name="M_PI" value="3.1415926535897931" /> 
 
+  <link name="base_footprint" />
+
+  <joint
+    name="joint_base_footprint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_footprint" />
+    <child
+      link="base_link" />
+  </joint>
+
   <link
     name="base_link">
     <inertial>
