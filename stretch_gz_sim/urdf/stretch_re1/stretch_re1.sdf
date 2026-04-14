@@ -2,6 +2,7 @@
   <model name='stretch_main'>
     <!-- BASE LINK -->
     <link name='base_link'>
+      <pose relative_to='joint_base_footprint'>0 0 0 0 0 0</pose>
       <inertial>
         <pose>-0.086558 0.055172 0.448254 0 -0 0</pose>
         <mass>0.01</mass>
@@ -81,6 +82,28 @@
         <topic>imu</topic>
       </sensor>
     </link>
+
+    <!-- BASE FOOTPRINT -->
+    <link name='base_footprint'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <mass>0.01</mass>
+        <inertia>
+          <ixx>0.001</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.001</iyy>
+          <iyz>0</iyz>
+          <izz>0.001</izz>
+        </inertia>
+      </inertial>
+    </link>
+
+    <joint name='joint_base_footprint' type='fixed'>
+      <pose relative_to='base_footprint'>0 0 0 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>base_link</child>
+    </joint>
 
     <!-- MAST -->
     <joint name='joint_mast' type='fixed'>
