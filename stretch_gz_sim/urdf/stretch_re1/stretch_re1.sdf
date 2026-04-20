@@ -2,7 +2,6 @@
   <model name='stretch_main'>
     <!-- BASE LINK -->
     <link name='base_link'>
-      <pose relative_to='joint_base_footprint'>0 0 0 0 0 0</pose>
       <inertial>
         <pose>-0.086558 0.055172 0.448254 0 -0 0</pose>
         <mass>0.01</mass>
@@ -82,28 +81,6 @@
         <topic>imu</topic>
       </sensor>
     </link>
-
-    <!-- BASE FOOTPRINT -->
-    <link name='base_footprint'>
-      <pose>0 0 0 0 0 0</pose>
-      <inertial>
-        <mass>0.01</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
-      </inertial>
-    </link>
-
-    <joint name='joint_base_footprint' type='fixed'>
-      <pose relative_to='base_footprint'>0 0 0 0 0 0</pose>
-      <parent>base_footprint</parent>
-      <child>base_link</child>
-    </joint>
 
     <!-- MAST -->
     <joint name='joint_mast' type='fixed'>
@@ -193,12 +170,12 @@
         </material>
       </visual>
       <sensor name='lidar' type='gpu_lidar'>
-        <topic>scan</topic>
+        <topic>lidar</topic>
         <update_rate>5.0</update_rate>
         <lidar>
           <scan>
             <horizontal>
-              <samples>180</samples>
+              <samples>2000</samples>
               <resolution>1</resolution>
               <min_angle>-3.141592</min_angle>
               <max_angle>3.141592</max_angle>
@@ -235,7 +212,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
           <damping>21.75</damping>
-          <friction>3.48</friction>
+          <friction>3.48</friction>          
         </dynamics>
       </axis>
     </joint>
@@ -337,25 +314,25 @@
         </material>
       </visual>
     </link>
-
+  
     <!-- CASTER WHEEL -->
     <joint name='joint_caster' type='ball'>
-      <parent>base_link</parent>
-      <child>link_caster</child>
+        <parent>base_link</parent>
+        <child>link_caster</child>
     </joint>
 
     <link name="link_caster">
       <pose>-0.245 0.0 0.032 1.5707963267949 1.5707963267949 0</pose>
       <inertial>
         <mass>4.2</mass>
-        <inertia>
-          <ixx>0.001</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>0.001</iyy>
-          <iyz>0</iyz>
-          <izz>0.001</izz>
-        </inertia>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
       </inertial>
       <visual name="visual">
         <geometry>
@@ -382,15 +359,15 @@
               <mu2>0</mu2>
             </ode>
           </friction>
-          <contact>
-            <ode>
-              <soft_cfm>0</soft_cfm>
-              <soft_erp>0.2</soft_erp>
-              <kp>1e+13</kp>
-              <kd>1</kd>
-              <min_depth>0.05</min_depth>
-            </ode>
-          </contact>
+            <contact>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <min_depth>0.05</min_depth>
+              </ode>
+            </contact>
         </surface>
       </collision>
     </link>
@@ -471,11 +448,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-3.9</lower>
+          <lower>-3.8999999999999999</lower>
           <upper>1.5</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -528,10 +510,15 @@
         <xyz>0 0 1</xyz>
         <limit>
           <lower>-1.53</lower>
-          <upper>0.79</upper>
+          <upper>0.79000000000000004</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -583,7 +570,7 @@
 
     <!-- LIFT -->
     <joint name='joint_lift' type='prismatic'>
-      <pose relative_to='link_mast'>-0.1073 0.135 0.3 0 0 1.5708</pose>
+      <pose relative_to='link_mast'>-0.1073 0.135 0.4 0 0 1.5708</pose>
       <parent>link_mast</parent>
       <child>link_lift</child>
       <axis>
@@ -591,9 +578,14 @@
         <limit>
           <lower>-0.1033</lower>
           <upper>0.9967</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -685,12 +677,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>0.0</lower>
+          <lower>0</lower>
           <upper>0.13</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
-          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -747,12 +743,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>0.0</lower>
+          <lower>0</lower>
           <upper>0.13</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
-          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -809,12 +809,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>0.0</lower>
+          <lower>0</lower>
           <upper>0.13</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
-          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -871,12 +875,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>0.0</lower>
+          <lower>0</lower>
           <upper>0.13</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
-          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -973,10 +981,14 @@
         <limit>
           <lower>-1.75</lower>
           <upper>4</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>0.2</damping>
-          <friction>0.1</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -1057,12 +1069,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-0.6</lower>
-          <upper>0.6</upper>
+          <lower>-0.59999999999999998</lower>
+          <upper>0.59999999999999998</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>2</damping>
-          <friction>1.0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -1137,12 +1153,16 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-0.6</lower>
-          <upper>0.6</upper>
+          <lower>-0.59999999999999998</lower>
+          <upper>0.59999999999999998</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
-          <damping>2</damping>
-          <friction>1.0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>21.75</damping>
+          <friction>3.48</friction>
         </dynamics>
       </axis>
     </joint>
@@ -1231,24 +1251,24 @@
       </inertial>
       <!-- RealSense RGB camera -->
       <sensor name="rgbd_camera" type="rgbd_camera">
-        <camera>
-          <horizontal_fov>1.25</horizontal_fov>
-          <image>
-            <width>320</width>
-            <height>240</height>
-          </image>
-          <clip>
-            <near>0.3</near>
-            <far>15</far>
-          </clip>
-          <optical_frame_id>camera_link_optical</optical_frame_id>
-        </camera>
-        <always_on>1</always_on>
-        <update_rate>20</update_rate>
-        <visualize>true</visualize>
-        <topic>camera</topic>
-        <gz_frame_id>camera_link</gz_frame_id>
-      </sensor>
+      <camera>
+        <horizontal_fov>1.25</horizontal_fov>
+        <image>
+          <width>320</width>
+          <height>240</height>
+        </image>
+        <clip>
+          <near>0.3</near>
+          <far>15</far>
+        </clip>
+        <optical_frame_id>camera_link_optical</optical_frame_id>
+      </camera>
+      <always_on>1</always_on>
+      <update_rate>20</update_rate>
+      <visualize>true</visualize>
+      <topic>camera</topic>
+      <gz_frame_id>camera_link</gz_frame_id>
+    </sensor>
     </link>
 
     <joint name='joint_camera_link_optical' type='fixed'>
@@ -1273,142 +1293,140 @@
     </link>
 
     <!-- Diff Drive Plugin -->
-    <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+    <!-- <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
       <left_joint>joint_left_wheel</left_joint>
       <right_joint>joint_right_wheel</right_joint>
       <wheel_separation>0.315</wheel_separation>
       <wheel_radius>0.05</wheel_radius>
       <odom_publish_frequency>10</odom_publish_frequency>
       <topic>cmd_vel</topic>
-      <!-- Launch files can override this topic using OpaqueFunction to disable DiffDrive odom TF publication. -->
-      <tf_topic>/model/stretch/tf</tf_topic>
       <frame_id>odom</frame_id>
-      <child_frame_id>base_footprint</child_frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <publish_odom_tf>false</publish_odom_tf>
+    </plugin> -->
+
+    <plugin filename="StretchDiffDrive" name="stretch_diff_drive::StretchDiffDrive">
+      <left_joint>joint_left_wheel</left_joint>
+      <right_joint>joint_right_wheel</right_joint>
+      <wheel_separation>0.315</wheel_separation>
+      <wheel_radius>0.05</wheel_radius>
+      <odom_publish_frequency>10</odom_publish_frequency>
+      <topic>cmd_vel</topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_link</child_frame_id>
+      <use_ground_truth_odom>true</use_ground_truth_odom>
     </plugin>
 
     <!-- Joint state publisher -->
     <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
     </plugin>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
-      <joint_name>joint_lift</joint_name>
-      <topic>joint_lift</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>2.0</d_gain>
-      <i_max>1.0</i_max>
-      <i_min>-1.0</i_min>
-      <cmd_max>100</cmd_max>
-      <cmd_min>-100</cmd_min>
-    </plugin>
+    <!-- Joint trajectory controller -->
+    <plugin filename="gz-sim-joint-trajectory-controller-system" name="gz::sim::systems::JointTrajectoryController">
+      
+      <topic>joint_trajectory</topic>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
-      <joint_name>joint_arm_l3</joint_name>
-      <topic>joint_arm_l3</topic>
-      <p_gain>40</p_gain>
-      <i_gain>0.05</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
-
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
-      <joint_name>joint_arm_l2</joint_name>
-      <topic>joint_arm_l2</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
-
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
-      <joint_name>joint_arm_l1</joint_name>
-      <topic>joint_arm_l1</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
-
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_arm_l0</joint_name>
-      <topic>joint_arm_l0</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>joint_arm_l1</joint_name>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
+
+      <joint_name>joint_arm_l2</joint_name>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
+
+      <joint_name>joint_arm_l3</joint_name>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
+
+      <joint_name>joint_lift</joint_name>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
+
       <joint_name>joint_wrist_yaw</joint_name>
-      <topic>joint_wrist_yaw</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>2.0</d_gain>
-      <i_max>1.0</i_max>
-      <i_min>-1.0</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_gripper_finger_left</joint_name>
-      <topic>joint_gripper_finger_left</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.01</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_gripper_finger_right</joint_name>
-      <topic>joint_gripper_finger_right</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.01</i_gain>
-      <d_gain>3.0</d_gain>
-      <i_max>0.5</i_max>
-      <i_min>-0.5</i_min>
-      <cmd_max>50</cmd_max>
-      <cmd_min>-50</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_head_pan</joint_name>
-      <topic>joint_head_pan</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>2.0</d_gain>
-      <i_max>1.0</i_max>
-      <i_min>-1.0</i_min>
-      <cmd_max>100</cmd_max>
-      <cmd_min>-100</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
-    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
       <joint_name>joint_head_tilt</joint_name>
-      <topic>joint_head_tilt</topic>
-      <p_gain>30</p_gain>
-      <i_gain>0.0</i_gain>
-      <d_gain>2.0</d_gain>
-      <i_max>1.0</i_max>
-      <i_min>-1.0</i_min>
-      <cmd_max>100</cmd_max>
-      <cmd_min>-100</cmd_min>
-    </plugin>
+      <initial_position>0</initial_position>
+      <position_p_gain>3000</position_p_gain>
+      <position_d_gain>15</position_d_gain>
+      <position_i_gain>1650</position_i_gain>
+      <position_i_min>-15</position_i_min>
+      <position_i_max>15</position_i_max>
+      <position_cmd_min>-87</position_cmd_min>
+      <position_cmd_max>87</position_cmd_max>
 
+    </plugin>
+    
   </model>
 </sdf>

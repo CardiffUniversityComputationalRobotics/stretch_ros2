@@ -1,15 +1,14 @@
 import os
-import xml.etree.ElementTree as ET
 import yaml
 import xacro
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
-from launch.actions import OpaqueFunction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, TextSubstitution
+from launch.conditions import IfCondition, UnlessCondition
 
 
 def load_file(package_name, file_path):
@@ -33,56 +32,13 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:
         return None
 
-
-def _as_bool(value):
-    return value.strip().lower() in ('1', 'true', 'yes', 'on')
-
-
-def _render_stretch_sdf(sdf_path, tf_topic):
-    root = ET.parse(sdf_path).getroot()
-
-    for plugin in root.findall('.//plugin'):
-        if plugin.get('name') != 'gz::sim::systems::DiffDrive':
-            continue
-
-        tf_topic_elem = plugin.find('tf_topic')
-        if tf_topic_elem is None:
-            tf_topic_elem = ET.SubElement(plugin, 'tf_topic')
-        tf_topic_elem.text = tf_topic
-        break
-    else:
-        raise RuntimeError('Failed to find DiffDrive plugin in stretch SDF.')
-
-    return ET.tostring(root, encoding='unicode')
-
-
-def _create_spawn_node(context, stretch_sdf_path, model_name):
-    enable_odom_tf = _as_bool(
-        LaunchConfiguration('enable_odom_tf').perform(context)
-    )
-    tf_topic = f'/model/{model_name}/tf' if enable_odom_tf else '/disabled_odom_tf'
-    stretch_sdf = _render_stretch_sdf(stretch_sdf_path, tf_topic)
-
-    return [
-        Node(
-            package='ros_gz_sim',
-            executable='create',
-            arguments=[
-                '-name', model_name,
-                '-string', stretch_sdf,
-                '-z', '0.1',
-            ],
-            output='screen',
-        )
-    ]
-
 def generate_launch_description():
     # Main package
     pkg_stretch_gz_sim = get_package_share_directory('stretch_gz_sim')
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
-    model_name = 'stretch'
 
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
+
     robot_description_path = os.path.join(
         pkg_stretch_gz_sim,
         "urdf",
@@ -105,6 +61,7 @@ def generate_launch_description():
 
     # Gazebo Sim
     world = LaunchConfiguration("world")
+    use_gui = LaunchConfiguration("use_gui")
 
     world_path = os.path.join(pkg_stretch_gz_sim, 'worlds', 'empty_world.sdf')
     
@@ -114,24 +71,41 @@ def generate_launch_description():
         description="Path of the world to show.",
     )
 
+    declare_use_gui_cmd = DeclareLaunchArgument(
+        "use_gui",
+        default_value= "false",
+        description="use GUI of gz sim",
+    )
+
+    world_str_path_headless = [TextSubstitution(text='-s -r '), world]
     world_str_path = [TextSubstitution(text='-r '), world]
 
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
         launch_arguments={'gz_args': world_str_path}.items(),
+        condition=IfCondition(use_gui),
+    )
+
+    gazebo_headless = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
+        launch_arguments={'gz_args': world_str_path_headless}.items(),
+        condition=UnlessCondition(use_gui),
     )
 
     # Spawn
     stretch_sdf_path = os.path.join(pkg_stretch_gz_sim, "urdf", "stretch_re1" ,"stretch_re1.sdf")
 
-
-    spawn = OpaqueFunction(
-        function=lambda context: _create_spawn_node(
-            context,
-            stretch_sdf_path,
-            model_name,
-        )
+    spawn = Node(
+        package='ros_gz_sim',
+        executable='create',
+        arguments=[
+            '-name', 'stretch',
+            '-file', stretch_sdf_path,
+            '-z', '0.1',
+        ],
+        output='screen',
     )
 
     # ROS-Gazebo Bridge
@@ -220,14 +194,6 @@ def generate_launch_description():
         ]
     )
 
-    rviz_node = Node(
-        package='rviz2',
-        namespace='',
-        executable='rviz2',
-        name='rviz2',
-        arguments=['-d', [os.path.join(pkg_stretch_gz_sim, 'rviz', 'default.rviz')]]
-    )
-
     return LaunchDescription(
         [
             # Launch Arguments
@@ -235,13 +201,11 @@ def generate_launch_description():
                 'use_sim_time',
                 default_value=use_sim_time,
                 description="If true, use simulated clock"),
-            DeclareLaunchArgument(
-                'enable_odom_tf',
-                default_value='true',
-                description='If true, publish DiffDrive odom TF on /model/stretch/tf.'),
             declare_world_cmd,
+            declare_use_gui_cmd,
             # Nodes and Launches
             gazebo,
+            gazebo_headless,
             spawn,
             bridge,
             robot_state_publisher,
@@ -249,6 +213,6 @@ def generate_launch_description():
             rgbd_static_tf,
             gz_image_bridge_node,
             relay_camera_info_node,
-            rviz_node,
         ]
     )
+

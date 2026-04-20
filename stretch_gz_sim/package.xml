@@ -9,15 +9,19 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>ros_gzharmonic</depend>
+  <depend>rclcpp</depend>
+  <depend>nav_msgs</depend>
+  <depend>tf2_ros</depend>
+  <depend>geometry_msgs</depend>
+  <depend>topic_tools</depend>
+  <depend>robot_localization</depend>
   <depend>realsense2_description</depend>
-  <depend>stretch_description</depend>
+  <depend>gzharmonic</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
   <exec_depend>ros2launch</exec_depend>
-  <exec_depend>topic_tools</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
