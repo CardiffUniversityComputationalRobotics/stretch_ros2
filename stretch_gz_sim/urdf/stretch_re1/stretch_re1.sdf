@@ -1284,6 +1284,12 @@
       <tf_topic>/model/stretch/tf</tf_topic>
       <frame_id>odom</frame_id>
       <child_frame_id>base_footprint</child_frame_id>
+
+      <min_linear_velocity>-1.0</min_linear_velocity>
+      <max_linear_velocity>1.0</max_linear_velocity>
+
+      <min_angular_velocity>-3.0</min_angular_velocity>
+      <max_angular_velocity>3.0</max_angular_velocity>
     </plugin>
 
     <!-- Joint state publisher -->
