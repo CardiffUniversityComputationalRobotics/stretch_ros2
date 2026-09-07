@@ -38,20 +38,76 @@ def _as_bool(value):
     return value.strip().lower() in ('1', 'true', 'yes', 'on')
 
 
-def _render_stretch_sdf(sdf_path, tf_topic):
+DIFF_DRIVE_PLUGIN = 'gz::sim::systems::DiffDrive'
+LINK_VELOCITY_PLUGIN = 'link_velocity_plugin::LinkVelocityPlugin'
+
+
+def _normalize_drive_system(value):
+    drive_system = value.strip().lower().replace('-', '_')
+
+    if drive_system in ('diff', 'diff_drive', 'diffdrive'):
+        return 'diff_drive'
+
+    if drive_system in (
+        'link_velocity',
+        'link_velocity_plugin',
+        'velocity',
+        'velocity_control',
+        'gz_sim_velocity_control_system',
+    ):
+        return 'link_velocity'
+
+    raise RuntimeError(
+        "Unsupported drive_system "
+        f"'{value}'. Use 'diff_drive' or 'link_velocity'."
+    )
+
+
+def _set_diff_drive_tf_topic(plugin, tf_topic):
+    tf_topic_elem = plugin.find('tf_topic')
+    if tf_topic_elem is None:
+        tf_topic_elem = ET.SubElement(plugin, 'tf_topic')
+    tf_topic_elem.text = tf_topic
+
+
+def _render_stretch_sdf(sdf_path, tf_topic, drive_system):
     root = ET.parse(sdf_path).getroot()
+    drive_system = _normalize_drive_system(drive_system)
+    selected_plugin = (
+        DIFF_DRIVE_PLUGIN
+        if drive_system == 'diff_drive'
+        else LINK_VELOCITY_PLUGIN
+    )
+    drive_plugins_found = {
+        DIFF_DRIVE_PLUGIN: False,
+        LINK_VELOCITY_PLUGIN: False,
+    }
 
-    for plugin in root.findall('.//plugin'):
-        if plugin.get('name') != 'gz::sim::systems::DiffDrive':
-            continue
+    for parent in root.iter():
+        for plugin in list(parent.findall('plugin')):
+            plugin_name = plugin.get('name')
+            if plugin_name not in drive_plugins_found:
+                continue
 
-        tf_topic_elem = plugin.find('tf_topic')
-        if tf_topic_elem is None:
-            tf_topic_elem = ET.SubElement(plugin, 'tf_topic')
-        tf_topic_elem.text = tf_topic
-        break
-    else:
-        raise RuntimeError('Failed to find DiffDrive plugin in stretch SDF.')
+            drive_plugins_found[plugin_name] = True
+
+            if plugin_name != selected_plugin:
+                parent.remove(plugin)
+                continue
+
+            if plugin_name == DIFF_DRIVE_PLUGIN:
+                _set_diff_drive_tf_topic(plugin, tf_topic)
+
+    missing_plugins = [
+        plugin_name
+        for plugin_name, was_found in drive_plugins_found.items()
+        if not was_found
+    ]
+    if missing_plugins:
+        raise RuntimeError(
+            'Failed to find drive plugin(s) in stretch SDF: '
+            + ', '.join(missing_plugins)
+        )
 
     return ET.tostring(root, encoding='unicode')
 
@@ -61,7 +117,8 @@ def _create_spawn_node(context, stretch_sdf_path, model_name):
         LaunchConfiguration('enable_odom_tf').perform(context)
     )
     tf_topic = f'/model/{model_name}/tf' if enable_odom_tf else '/disabled_odom_tf'
-    stretch_sdf = _render_stretch_sdf(stretch_sdf_path, tf_topic)
+    drive_system = LaunchConfiguration('drive_system').perform(context)
+    stretch_sdf = _render_stretch_sdf(stretch_sdf_path, tf_topic, drive_system)
 
     return [
         Node(
@@ -141,7 +198,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
         arguments=[
             # Velocity commands (ROS2 -> Gazebo)
-            '/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
+            '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
             # JointTrajectory bridge (ROS2 -> Gazebo)
             '/joint_trajectory@trajectory_msgs/msg/JointTrajectory@gz.msgs.JointTrajectory',
             # Odometry (Gazebo -> ROS2)
@@ -239,6 +296,13 @@ def generate_launch_description():
                 'enable_odom_tf',
                 default_value='true',
                 description='If true, publish DiffDrive odom TF on /model/stretch/tf.'),
+            DeclareLaunchArgument(
+                'drive_system',
+                default_value='diff_drive',
+                description=(
+                    "Drive system to use: 'diff_drive' or "
+                    "'link_velocity'."
+                )),
             declare_world_cmd,
             # Nodes and Launches
             gazebo,
