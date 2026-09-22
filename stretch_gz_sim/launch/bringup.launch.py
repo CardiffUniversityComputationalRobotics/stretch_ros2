@@ -19,13 +19,6 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
-    use_base_footprint = LaunchConfiguration("use_base_footprint")
-    declare_use_base_footprint_cmd = DeclareLaunchArgument(
-        "use_base_footprint",
-        default_value= "true",
-        description="add link base_footprint",
-    )
-
     # Robot State Publisher
     robot_description_path = os.path.join(
         pkg_stretch_gz_sim,
@@ -281,7 +274,6 @@ def generate_launch_description():
             ),
             declare_world_cmd,
             declare_use_gui_cmd,
-            declare_use_base_footprint_cmd,
             # Nodes and Launches
             gazebo,
             gazebo_headless,
