@@ -19,6 +19,13 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
+    use_base_footprint = LaunchConfiguration("use_base_footprint")
+    declare_use_base_footprint_cmd = DeclareLaunchArgument(
+        "use_base_footprint",
+        default_value= "true",
+        description="add link base_footprint",
+    )
+
     # Robot State Publisher
     robot_description_path = os.path.join(
         pkg_stretch_gz_sim,
@@ -222,6 +229,18 @@ def generate_launch_description():
         ]
     )
 
+    # Use base footprint
+    base_footprint = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='rgbd_static_transform_publisher',
+        output='log',
+        arguments=[
+            '0.0', '0.0', '0.0', '0.0', '0.0', '0.0',
+            'base_footprint', 'base_link'
+        ]
+    )
+
     return LaunchDescription(
         [
             # Launch Arguments
@@ -262,6 +281,7 @@ def generate_launch_description():
             ),
             declare_world_cmd,
             declare_use_gui_cmd,
+            declare_use_base_footprint_cmd,
             # Nodes and Launches
             gazebo,
             gazebo_headless,
@@ -272,6 +292,7 @@ def generate_launch_description():
             rgbd_static_tf,
             gz_image_bridge_node,
             relay_camera_info_node,
+            base_footprint,
         ]
     )
 
