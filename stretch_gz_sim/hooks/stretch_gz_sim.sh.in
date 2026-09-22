@@ -1,3 +1,1 @@
-if [ -d "$AMENT_CURRENT_PREFIX/share" ]; then
-  ament_prepend_unique_value GZ_SIM_RESOURCE_PATH "$AMENT_CURRENT_PREFIX/share"
-fi
+ament_prepend_unique_value GZ_SIM_RESOURCE_PATH "$AMENT_CURRENT_PREFIX/share"

@@ -1,0 +1,31 @@
+/**/stretch_head_controller:
+  ros__parameters:
+
+    type: joint_trajectory_controller/JointTrajectoryController
+
+    joints:
+      - joint_head_pan
+      - joint_head_tilt
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    allow_partial_joints_goal: true
+
+    action_monitor_rate: 10.0
+
+    constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+
+      joint_head_pan:
+        trajectory: 0.1
+        goal: 0.1
+
+      joint_head_tilt:
+        trajectory: 0.1
+        goal: 0.1

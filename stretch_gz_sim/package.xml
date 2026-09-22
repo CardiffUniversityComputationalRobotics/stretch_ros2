@@ -9,16 +9,18 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>ros_gz</depend>
-  <depend>ros_gz_sim</depend>
+  <depend>rclcpp</depend>
+  <depend>tf2_ros</depend>
+  <depend>topic_tools</depend>
   <depend>realsense2_description</depend>
-  <depend>stretch_description</depend>
+  <depend>gz_ros2_control</depend>
+  <depend>ros2_control</depend>
+  <depend>ros2_controllers</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 
   <exec_depend>ros2launch</exec_depend>
-  <exec_depend>topic_tools</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

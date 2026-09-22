@@ -7,9 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(ros_gz REQUIRED)
-find_package(stretch_description REQUIRED)
 find_package(realsense2_description REQUIRED)
 
 if(BUILD_TESTING)
@@ -26,17 +26,17 @@ endif()
 
 install(
   DIRECTORY 
+    config
     launch
     worlds
     urdf
     meshes
-    rviz
   DESTINATION 
     share/${PROJECT_NAME})
 
-# model:// URIs in the SDF name this package, so gz resolves them against
-# the share root, not share/stretch_gz_sim.
-ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.dsv.in")
-ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.sh.in")
+ament_environment_hooks(
+  "${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.dsv.in"
+  "${CMAKE_CURRENT_SOURCE_DIR}/hooks/${PROJECT_NAME}.sh.in"
+)
 
 ament_package()
