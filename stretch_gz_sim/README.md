@@ -15,18 +15,29 @@
 - :grey_question: - To Be Tested
 - :x: - Not Functional
 
-> Note: Documentation is still under development, more to come in the future...
-
-## Installation
-Add this package into your workspace and run the following command in your terminal so that Gazebo Sim can find the meshes:
-
-```bash
-echo 'export GZ_SIM_RESOURCE_PATH=${GZ_SIM_RESOURCE_PATH}:~/PATH/TO/WORKSPACE' >> ~/.bashrc
-```
-> Note: Modify `~/PATH/TO/WORKSPACE` for the path to your workspace, for example: `~/ros2_ws/src`
-
 ## Running Gazebo
 Launching the simulation is as simple as:
 ```bash
 ros2 launch stretch_gz_sim stretch_gz_sim.launch.py
+```
+
+## Differential Drive Test
+To test the differential drive first install this package:
+```bash
+sudo apt install ros-<distro>-teleop-twist-keyboard
+```
+> Note: change `<distro>` for the ros2 version you are using (e.g. ros-jazzy-teleop-twist-keyboard)
+Then run the following command to move the robot:
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard   --ros-args   -p stamped:=true   -r cmd_vel:=/stretch_diff_drive_controller/cmd_vel
+```
+
+## Test joints in the robot
+To test the joints in the robot first install this package:
+```bash
+sudo apt-get install ros-jazzy-rqt-joint-trajectory-controller
+```
+Then, run the following command to move each joint in the robot:
+```bash
+ros2 run rqt_joint_trajectory_controller rqt_joint_trajectory_controller
 ```
