@@ -256,19 +256,19 @@ def generate_launch_description():
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=diff_drive_base_controller_spawner,
+                    target_action=joint_state_broadcaster_spawner,
                     on_exit=[stretch_arm_controller_spawner],
                 )
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=stretch_arm_controller_spawner,
+                    target_action=joint_state_broadcaster_spawner,
                     on_exit=[stretch_head_controller_spawner],
                 )
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=stretch_head_controller_spawner,
+                    target_action=joint_state_broadcaster_spawner,
                     on_exit=[stretch_gripper_controller_spawner],
                 )
             ),
