@@ -1,0 +1,22 @@
+planning_plugins:
+  - ompl_interface/OMPLPlanner
+request_adapters:
+  - default_planning_request_adapters/ResolveConstraintFrames
+  - default_planning_request_adapters/ValidateWorkspaceBounds
+  - default_planning_request_adapters/CheckStartStateBounds
+  - default_planning_request_adapters/CheckStartStateCollision
+response_adapters:
+  - default_planning_response_adapters/AddTimeOptimalParameterization
+  - default_planning_response_adapters/ValidateSolution
+  - default_planning_response_adapters/DisplayMotionPath
+
+stretch_arm:
+  planner_configs: [RRTConnect, RRT, RRTstar, PRM]
+stretch_finger_left:
+  planner_configs: [RRTConnect, RRT, RRTstar, PRM]
+stretch_finger_right:
+  planner_configs: [RRTConnect, RRT, RRTstar, PRM]
+stretch_head:
+  planner_configs: [RRTConnect, RRT, RRTstar, PRM]
+stretch_wrist:
+  planner_configs: [RRTConnect, RRT, RRTstar, PRM]

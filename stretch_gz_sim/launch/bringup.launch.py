@@ -36,7 +36,9 @@ def generate_launch_description():
         executable="robot_state_publisher",
         name="robot_state_publisher",
         output="both",
-        parameters=[robot_description],
+        parameters=[robot_description,
+                    {"use_sim_time": use_sim_time},
+        ],
     )
 
     # Gazebo Sim
@@ -93,7 +95,9 @@ def generate_launch_description():
         arguments=[
             '-name', 'stretch',
             '-string', stretch_sdf,
-            '-z', '0.1',
+            '-x', '-1.0',
+            '-y', '1.0',
+            '-z', '0.2',
         ],
         output='screen',
     )
@@ -210,29 +214,6 @@ def generate_launch_description():
              'camera.image.compressed.jpeg_quality': 75},
         ],
     )
-    # # Relay node to republish camera_info to /camera_info
-    relay_camera_info_node = Node(
-        package='topic_tools',
-        executable='relay',
-        name='relay_camera_info',
-        output='screen',
-        arguments=['camera/camera_info', 'camera/camera_info'],
-        parameters=[
-            {'use_sim_time': LaunchConfiguration('use_sim_time')},
-        ]
-    )
-
-    # Use base footprint
-    base_footprint = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='rgbd_static_transform_publisher',
-        output='log',
-        arguments=[
-            '0.0', '0.0', '0.0', '0.0', '0.0', '0.0',
-            'base_footprint', 'base_link'
-        ]
-    )
 
     return LaunchDescription(
         [
@@ -256,19 +237,19 @@ def generate_launch_description():
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=joint_state_broadcaster_spawner,
+                    target_action=diff_drive_base_controller_spawner,
                     on_exit=[stretch_arm_controller_spawner],
                 )
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=joint_state_broadcaster_spawner,
+                    target_action=stretch_arm_controller_spawner,
                     on_exit=[stretch_head_controller_spawner],
                 )
             ),
             RegisterEventHandler(
                 event_handler=OnProcessExit(
-                    target_action=joint_state_broadcaster_spawner,
+                    target_action=stretch_head_controller_spawner,
                     on_exit=[stretch_gripper_controller_spawner],
                 )
             ),
@@ -283,8 +264,6 @@ def generate_launch_description():
             lidar_static_tf,
             rgbd_static_tf,
             gz_image_bridge_node,
-            relay_camera_info_node,
-            base_footprint,
         ]
     )
 
