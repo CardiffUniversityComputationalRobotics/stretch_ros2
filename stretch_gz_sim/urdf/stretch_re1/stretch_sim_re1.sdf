@@ -1,4 +1,7 @@
-<sdf version='1.8'>
+<sdf version='1.8' xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- diff_drive: ros2_control drives the wheels (bringup.launch.py).
+       link_velocity: Gazebo plugins below, for launch files that bridge gz topics directly. -->
+  <xacro:arg name="drive_system" default="diff_drive"/>
   <model name='stretch_main'>
     <!-- BASE LINK -->
     <link name='base_link'>
@@ -1290,6 +1293,25 @@
       <parameters>$(find stretch_gz_sim)/config/head.yaml</parameters>
       <parameters>$(find stretch_gz_sim)/config/gripper.yaml</parameters>
     </plugin>
+
+    <xacro:if value="${'$(arg drive_system)' == 'link_velocity'}">
+      <!-- Sets base_link velocity from gz /cmd_vel (zero when idle, so never load it next to ros2_control's diff drive). -->
+      <plugin filename="libLinkVelocityPlugin.so" name="link_velocity_plugin::LinkVelocityPlugin">
+        <link_name>base_link</link_name>
+        <topic>/cmd_vel</topic>
+        <command_timeout>0.5</command_timeout>
+      </plugin>
+
+      <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+      </plugin>
+
+      <!-- Ground-truth odometry on the topics the old DiffDrive plugin used: /model/stretch/odometry and /model/stretch/tf -->
+      <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_footprint</robot_base_frame>
+        <tf_topic>/model/stretch/tf</tf_topic>
+      </plugin>
+    </xacro:if>
 
   </model>
 </sdf>

@@ -9,7 +9,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(tf2_ros REQUIRED)
-find_package(ros_gz REQUIRED)
 find_package(realsense2_description REQUIRED)
 
 if(BUILD_TESTING)

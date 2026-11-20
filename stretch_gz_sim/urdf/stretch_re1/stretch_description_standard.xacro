@@ -53,14 +53,19 @@
       <state_interface name="position"/>
       <state_interface name="velocity"/>
     </joint>
+    <!-- lift 0.35 + wrist_yaw 3.16 = tucked start pose -->
     <joint name="joint_lift">
       <command_interface name="position"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.35</param>
+      </state_interface>
       <state_interface name="velocity"/>
     </joint>
     <joint name="joint_wrist_yaw">
       <command_interface name="position"/>
-      <state_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">3.16</param>
+      </state_interface>
       <state_interface name="velocity"/>
     </joint>
     <joint name="joint_gripper_finger_left">
