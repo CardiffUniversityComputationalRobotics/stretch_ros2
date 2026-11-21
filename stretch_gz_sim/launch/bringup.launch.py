@@ -147,8 +147,8 @@ def generate_launch_description():
             'stretch_diff_drive_controller',
             '--param-file',
             drive_config_,
-            '--controller-ros-args',
-            '-r /diff_drive_controller/cmd_vel:=/cmd_vel',
+            # '=' form: a separate '-p ...' value would be taken as the spawner's own -p (--param-file)
+            ['--controller-ros-args=-p enable_odom_tf:=', LaunchConfiguration('enable_odom_tf')],
         ],
     )
     stretch_arm_controller_config_ = os.path.join(pkg_stretch_gz_sim, 'config', 'arm.yaml')
@@ -222,6 +222,10 @@ def generate_launch_description():
                 'use_sim_time',
                 default_value=use_sim_time,
                 description="If true, use simulated clock"),
+            DeclareLaunchArgument(
+                'enable_odom_tf',
+                default_value='true',
+                description='If true, the diff drive controller publishes the odom->base_footprint TF.'),
 
             RegisterEventHandler(
                 event_handler=OnProcessExit(
