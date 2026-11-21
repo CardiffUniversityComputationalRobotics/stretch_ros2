@@ -18,7 +18,7 @@
 ## Running Gazebo
 Launching the simulation is as simple as:
 ```bash
-ros2 launch stretch_gz_sim stretch_gz_sim.launch.py
+ros2 launch stretch_gz_sim bringup.launch.py
 ```
 
 ## Differential Drive Test
